@@ -1,0 +1,19 @@
+simpy           # simulazione processi
+matplotlib      # grafici
+python-dotenv   # gestione variabili di ambiente
+pydantic        # validazione dei dati
+asyncio         # operazioni asincrone
+grpcio          # gRPC framework
+grpcio-tools    # gRPC generazione codice
+types-protobuf  # tipizzazione dei messaggi protobuf
+
+# === TESTING ===
+pytest                    # Testing framework
+pytest-cov                # Coverage reports
+
+# === CODE QUALITY ===
+black                      # Code formatting
+isort                      # Import sorting
+flake8                     # Linting
+mypy                       # Type checking
+bandit                     # Security linting

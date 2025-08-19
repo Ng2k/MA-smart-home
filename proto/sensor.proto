@@ -1,0 +1,29 @@
+// proto/sensor.proto
+syntax = "proto3";
+
+package dai;
+
+// Messaggio con la lettura del sensore
+message SensorReading {
+  string sensor_id = 1;
+  string sensor_type = 2;
+  double value = 3;
+  int64 timestamp = 4; // UNIX epoch millis
+}
+
+// Richiesta di invio dati
+message SensorRequest {
+  SensorReading reading = 1;
+}
+
+// Risposta generica
+message SensorResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Servizio gRPC
+service SensorService {
+  rpc SendReading(SensorRequest) returns (SensorResponse);
+  rpc StreamReadings(stream SensorRequest) returns (SensorResponse);
+}

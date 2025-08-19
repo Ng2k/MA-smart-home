@@ -1,0 +1,39 @@
+"""
+@author: Nicola Guerra
+@describe: This file contains the code for the abstract class for sensor nodes.
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict
+
+
+class SensorNode(ABC):
+    """
+    Abstract class for a generic sensor node.
+    Defines the common contract for all sensors.
+    """
+
+    def __init__(self, sensor_id: str, sensor_type: str):
+        self.sensor_id = sensor_id
+        self.sensor_type = sensor_type
+
+    @abstractmethod
+    def read_data(self) -> Dict[str, Any]:
+        """
+        Reads data from the sensor and returns a dictionary
+        with standard keys (e.g., 'value', 'timestamp').
+        """
+        pass
+
+    @abstractmethod
+    def calibrate(self) -> None:
+        """
+        Executes any calibration operations for the sensor.
+        """
+        pass
+
+    def get_metadata(self) -> Dict[str, str]:
+        """
+        Returns common metadata for the sensor.
+        """
+        return {"id": self.sensor_id, "type": self.sensor_type}
