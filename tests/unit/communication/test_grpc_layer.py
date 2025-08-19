@@ -153,11 +153,10 @@ def test_layer_inheritance():
 
 @pytest.mark.asyncio
 async def test_integration_service_layer(mock_grpc, mock_protobuf):
-    from core.communication.grpc_layer import (GRPCCommunicationLayer,
-                                               GRPCSensorService)
+    from core.communication.grpc_layer import GRPCCommunicationLayer
 
     callback = AsyncMock()
-    layer = GRPCCommunicationLayer(on_receive=callback)
+    GRPCCommunicationLayer(on_receive=callback)
 
     # Access registered service
     service_call = mock_protobuf[
