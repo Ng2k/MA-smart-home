@@ -5,12 +5,23 @@
 
 import math
 from datetime import datetime, timezone
-from typing import Literal
+from enum import Enum
 
 from pydantic import BaseModel, Field, field_validator
 
-SensorType = Literal["temperature", "humidity", "motion_ir", "position"]
-UnitOfMeasure = Literal["°C", "%", "lux", "boolean", "integer", "float"]
+class SensorType(Enum):
+    TEMPERATURE = "temperature"
+    HUMIDITY = "humidity"
+    MOTION_IR = "motion_ir"
+    POSITION = "position"
+
+class UnitOfMeasure(Enum):
+    CELSIUS = "°C"
+    PERCENT = "%"
+    LUX = "lux"
+    BOOLEAN = "boolean"
+    INTEGER = "integer"
+    FLOAT = "float"
 
 
 class SensorReading(BaseModel):

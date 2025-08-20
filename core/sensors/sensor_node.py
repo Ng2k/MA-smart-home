@@ -6,7 +6,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict
 
-from core.types.sensor_reading import SensorType, SensorReading
+from core.sensors.types.sensor_reading import SensorType, SensorReading
 
 
 class SensorNode(ABC):
@@ -25,17 +25,15 @@ class SensorNode(ABC):
         Reads data from the sensor and returns a dictionary
         with standard keys (e.g., 'value', 'timestamp').
         """
-        pass
 
     @abstractmethod
     def calibrate(self) -> None:
         """
         Executes any calibration operations for the sensor.
         """
-        pass
 
     def get_metadata(self) -> Dict[str, str]:
         """
         Returns common metadata for the sensor.
         """
-        return {"id": self.sensor_id, "type": self.sensor_type}
+        return {"id": self.sensor_id, "type": self.sensor_type.value}
