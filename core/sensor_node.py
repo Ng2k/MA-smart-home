@@ -4,7 +4,9 @@
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Dict
+
+from core.types.sensor_reading import SensorType, SensorReading
 
 
 class SensorNode(ABC):
@@ -13,12 +15,12 @@ class SensorNode(ABC):
     Defines the common contract for all sensors.
     """
 
-    def __init__(self, sensor_id: str, sensor_type: str):
+    def __init__(self, sensor_id: str, sensor_type: SensorType):
         self.sensor_id = sensor_id
         self.sensor_type = sensor_type
 
     @abstractmethod
-    def read_data(self) -> Dict[str, Any]:
+    def read_data(self) -> SensorReading:
         """
         Reads data from the sensor and returns a dictionary
         with standard keys (e.g., 'value', 'timestamp').
