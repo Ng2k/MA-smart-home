@@ -6,7 +6,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict
 
-from core.sensors.types.sensor_reading import SensorType, SensorReading
+from core.sensors.types.sensor_reading import SensorReading, SensorType
 
 
 class SensorNode(ABC):

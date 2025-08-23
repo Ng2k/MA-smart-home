@@ -13,8 +13,7 @@ from typing import Dict
 import pytest
 
 from core.sensors.sensor_node import SensorNode
-from core.sensors.types.sensor_reading import SensorType, SensorReading
-
+from core.sensors.types.sensor_reading import SensorReading, SensorType
 
 # -----------------------
 # Test Fixtures
@@ -47,12 +46,13 @@ def concrete_sensor():
 
 
 @pytest.mark.parametrize(
-    "sensor_id, sensor_type", [
+    "sensor_id, sensor_type",
+    [
         ("sensor_001", SensorType.TEMPERATURE),
         ("sensor_empty", SensorType.HUMIDITY),
         ("sensor_unicode_🌡️", SensorType.MOTION_IR),
         ("sensor_" + "x" * 50, SensorType.TEMPERATURE),
-    ]
+    ],
 )
 def test_constructor_assigns_attributes(concrete_sensor, sensor_id, sensor_type):
     """Test constructor properly assigns sensor_id and sensor_type."""
@@ -81,6 +81,7 @@ def test_must_implement_read_data():
     class MissingReadDataNode(SensorNode):
         def calibrate(self) -> None:
             pass
+
         # read_data method is missing
 
     with pytest.raises(TypeError) as exc_info:
@@ -95,6 +96,7 @@ def test_must_implement_calibrate():
     class MissingCalibrateNode(SensorNode):
         def read_data(self) -> SensorReading:
             return {"value": 1}
+
         # calibrate method is missing
 
     with pytest.raises(TypeError) as exc_info:
@@ -134,11 +136,12 @@ def test_abstract_methods_properties():
 
 
 @pytest.mark.parametrize(
-    "sensor_id, sensor_type", [
+    "sensor_id, sensor_type",
+    [
         ("sensor_01", SensorType.TEMPERATURE),
         ("sensor_02", SensorType.HUMIDITY),
         ("special_unicode", SensorType.MOTION_IR),
-    ]
+    ],
 )
 def test_get_metadata_returns_correct_dict(concrete_sensor, sensor_id, sensor_type):
     """Test get_metadata returns correct dictionary structure."""

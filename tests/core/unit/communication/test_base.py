@@ -454,7 +454,7 @@ def test_method_signatures():
     assert send_annotations.get("message") == Any
     assert send_annotations.get("return") is None or send_annotations.get(
         "return"
-    ) == type(None)
+    ) is type(None)
 
     # Test receive method signature
     receive_annotations = CommunicationLayer.receive.__annotations__
@@ -464,13 +464,13 @@ def test_method_signatures():
     start_annotations = CommunicationLayer.start.__annotations__
     assert start_annotations.get("return") is None or start_annotations.get(
         "return"
-    ) == type(None)
+    ) is type(None)
 
     # Test stop method signature
     stop_annotations = CommunicationLayer.stop.__annotations__
     assert stop_annotations.get("return") is None or stop_annotations.get(
         "return"
-    ) == type(None)
+    ) is type(None)
 
 
 def test_abstract_methods_are_async():

@@ -6,10 +6,12 @@ asyncio         # operazioni asincrone
 grpcio          # gRPC framework
 grpcio-tools    # gRPC generazione codice
 types-protobuf  # tipizzazione dei messaggi protobuf
+pyyaml			# gestione file yaml
 
 # === TESTING ===
 pytest                    # Testing framework
 pytest-cov                # Coverage reports
+pytest-asyncio			  # Async
 
 # === CODE QUALITY ===
 black                      # Code formatting

@@ -9,11 +9,13 @@ from enum import Enum
 
 from pydantic import BaseModel, Field, field_validator
 
+
 class SensorType(Enum):
     TEMPERATURE = "temperature"
     HUMIDITY = "humidity"
     MOTION_IR = "motion_ir"
     POSITION = "position"
+
 
 class UnitOfMeasure(Enum):
     CELSIUS = "°C"
