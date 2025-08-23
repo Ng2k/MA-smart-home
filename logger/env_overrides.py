@@ -28,7 +28,7 @@ def apply_env_level_overrides(cfg: Dict[str, Any]) -> None:
         if not k.startswith("LOG_LEVEL_") or k == "LOG_LEVEL_ROOT":
             continue
         # LOG_LEVEL_MYAPP_API -> myapp.api
-        lname = k[len("LOG_LEVEL_") :].lower().replace("__", ".").replace("_", ".")
+        lname = k[len("LOG_LEVEL_"):].lower().replace("__", ".").replace("_", ".")
         loggers = cfg.setdefault("loggers", {})
         logger_cfg = loggers.setdefault(
             lname, {"handlers": ["console"], "propagate": False}

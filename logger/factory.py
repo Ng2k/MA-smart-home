@@ -52,7 +52,6 @@ class Configurator:
         :return: Logger instance.
         """
         if not cls._configured:
-            # apply safe default once
             cls.init_logging(allow_reconfigure=False)
         return logging.getLogger(name) if name else logging.getLogger()
 

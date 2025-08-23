@@ -4,7 +4,8 @@
 """
 
 from core.sensors.sensor_node import SensorNode
-from core.sensors.types.sensor_reading import SensorReading, SensorType, UnitOfMeasure
+from core.sensors.types.sensor_reading import (SensorReading, SensorType,
+                                               UnitOfMeasure)
 
 
 class TemperatureSensor(SensorNode):
