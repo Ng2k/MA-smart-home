@@ -7,11 +7,11 @@ import random
 import time
 
 import grpc
+import asyncio
 
 from core.sensors.sensor_node import SensorNode
-from core.sensors.types.sensor_reading import (SensorReading, SensorType,
-                                               UnitOfMeasure)
-from proto import sensor_pb2, sensor_pb2_grpc
+from core.sensors.types.sensor_reading import SensorReading, SensorType, UnitOfMeasure
+from proto import sensor_pb2
 
 
 class TemperatureSensor(SensorNode):
@@ -20,14 +20,14 @@ class TemperatureSensor(SensorNode):
     def __init__(
         self,
         sensor_id: str,
-        stub: sensor_pb2_grpc.SensorServiceStub,
         interval: float = 2.0,
+        server_address="localhost:50051"
     ):
         super().__init__(
             sensor_id=sensor_id,
             sensor_type=SensorType.TEMPERATURE,
-            stub=stub,
             interval=interval,
+            server_address=server_address,
             logger_name=self.__class__.__name__,
         )
 
@@ -42,7 +42,7 @@ class TemperatureSensor(SensorNode):
     def calibrate(self):
         self.logger.info(f"Calibrating temperature sensor {self.sensor_id}")
 
-    def run(self) -> None:
+    async def run(self) -> None:
         self.running = True
         while self.running:
             read = self.read_data()
@@ -51,22 +51,21 @@ class TemperatureSensor(SensorNode):
                 sensor_id=self.sensor_id,
                 sensor_type=self.sensor_type.value,
                 value=read.value,
-                timestamp=int(time.time() * 1000),
+                timestamp=int(asyncio.get_event_loop().time() * 1000),
             )  # type: ignore[attr-defined]
-            request = sensor_pb2.SensorRequest(reading=reading)  # type: ignore[attr-defined]
 
             try:
-                response = self.stub.SendReading(request)
+                response = await self.grpc_layer.send(reading)
                 self.logger.info(
                     (
                         f"[{self.sensor_id}] Inviato: "
-                        f"{read.value:.2f} ({self.sensor_type}) → {response.message}"
+                        f"{read.value:.2f} ({self.sensor_type.value}) → {response.message}"
                     )
                 )
             except grpc.RpcError as e:
                 self.logger.error(f"[{self.sensor_id}] Errore gRPC: {e.details()}")
 
-            time.sleep(self.interval)
+            await asyncio.sleep(self.interval)
 
     def stop(self) -> None:
         self.running = False

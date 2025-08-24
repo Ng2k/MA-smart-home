@@ -6,6 +6,7 @@
 import grpc
 
 from core.communication.base import CommunicationLayer
+from logger.factory import get_logger
 from proto import sensor_pb2, sensor_pb2_grpc
 
 
@@ -28,10 +29,11 @@ class GRPCCommunicationLayer(CommunicationLayer):
             GRPCSensorService(on_receive), self.server
         )
         self.server.add_insecure_port(f"{self.host}:{self.port}")
+        self.logger = get_logger(self.__class__.__name__)
 
     async def start(self):
         await self.server.start()
-        print(f"[gRPC] Server started at {self.host}:{self.port}")
+        self.logger.info(f"Server started at {self.host}:{self.port}")
         await self.server.wait_for_termination()
 
     async def stop(self):

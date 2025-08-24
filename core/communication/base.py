@@ -1,6 +1,6 @@
 """
-@author: Nicola Guerra
 @description: This module provides the communication layer for the smart home system.
+@author: Nicola Guerra
 """
 
 from abc import ABC, abstractmethod
@@ -10,20 +10,20 @@ from typing import Any
 class CommunicationLayer(ABC):
     @abstractmethod
     async def send(self, target: str, message: Any) -> None:
-        """Invia un messaggio a un target identificato (es. un altro nodo)."""
+        """Send a message to a targeted node."""
         pass
 
     @abstractmethod
     async def receive(self) -> Any:
-        """Riceve un messaggio da un altro nodo."""
+        """Receive a message from another node."""
         pass
 
     @abstractmethod
     async def start(self) -> None:
-        """Avvia il layer di comunicazione (server)."""
+        """Start the communication layer (server)."""
         pass
 
     @abstractmethod
     async def stop(self) -> None:
-        """Ferma il layer di comunicazione (server)."""
+        """Stop the communication layer (server)."""
         pass

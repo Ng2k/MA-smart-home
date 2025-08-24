@@ -29,6 +29,14 @@ loggers:
     level: DEBUG
     handlers: [console]
     propagate: False
+  ServerGRPC:
+    level: DEBUG
+    handlers: [console]
+    propagate: False,
+  GRPCCommunicationLayer:
+    level: DEBUG
+    handlers: [console]
+    propagate: False
 
 root:
   level: WARNING

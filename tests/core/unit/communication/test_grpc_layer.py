@@ -65,7 +65,7 @@ def mock_protobuf():
     "reading_data", ["string", {"complex": [1, 2]}, ["list"], 42, None, ""]
 )
 async def test_send_reading_calls_callback(mock_protobuf, reading_data):
-    from core.communication.grpc_layer import GRPCSensorService
+    from core.communication.grpc_server import GRPCSensorService
 
     on_receive = AsyncMock()
     service = GRPCSensorService(on_receive)
@@ -83,7 +83,7 @@ async def test_send_reading_calls_callback(mock_protobuf, reading_data):
 
 @pytest.mark.asyncio
 async def test_send_reading_callback_exceptions(mock_protobuf):
-    from core.communication.grpc_layer import GRPCSensorService
+    from core.communication.grpc_server import GRPCSensorService
 
     on_receive = AsyncMock(side_effect=ValueError("Callback error"))
     service = GRPCSensorService(on_receive)
@@ -104,7 +104,7 @@ async def test_send_reading_callback_exceptions(mock_protobuf):
     "host,port", [("localhost", 50051), ("0.0.0.0", 8080), ("grpc.example.com", 443)]
 )
 async def test_layer_lifecycle_and_send(mock_grpc, mock_protobuf, host, port):
-    from core.communication.grpc_layer import GRPCCommunicationLayer
+    from core.communication.grpc_server import GRPCCommunicationLayer
 
     callback = AsyncMock()
     layer = GRPCCommunicationLayer(host=host, port=port, on_receive=callback)
@@ -123,7 +123,7 @@ async def test_layer_lifecycle_and_send(mock_grpc, mock_protobuf, host, port):
 
 @pytest.mark.asyncio
 async def test_send_various_messages(mock_grpc, mock_protobuf):
-    from core.communication.grpc_layer import GRPCCommunicationLayer
+    from core.communication.grpc_server import GRPCCommunicationLayer
 
     layer = GRPCCommunicationLayer()
     messages = ["string", {"dict": 1}, ["list"], None]
@@ -135,7 +135,7 @@ async def test_send_various_messages(mock_grpc, mock_protobuf):
 
 @pytest.mark.asyncio
 async def test_receive_noop(mock_grpc, mock_protobuf):
-    from core.communication.grpc_layer import GRPCCommunicationLayer
+    from core.communication.grpc_server import GRPCCommunicationLayer
 
     layer = GRPCCommunicationLayer()
     result = await layer.receive()
@@ -144,7 +144,7 @@ async def test_receive_noop(mock_grpc, mock_protobuf):
 
 def test_layer_inheritance():
     from core.communication.base import CommunicationLayer
-    from core.communication.grpc_layer import GRPCCommunicationLayer
+    from core.communication.grpc_server import GRPCCommunicationLayer
 
     layer = GRPCCommunicationLayer()
     assert isinstance(layer, CommunicationLayer)
@@ -153,7 +153,7 @@ def test_layer_inheritance():
 
 @pytest.mark.asyncio
 async def test_integration_service_layer(mock_grpc, mock_protobuf):
-    from core.communication.grpc_layer import GRPCCommunicationLayer
+    from core.communication.grpc_server import GRPCCommunicationLayer
 
     callback = AsyncMock()
     GRPCCommunicationLayer(on_receive=callback)
