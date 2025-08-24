@@ -7,6 +7,7 @@ grpcio          # gRPC framework
 grpcio-tools    # gRPC generazione codice
 types-protobuf  # tipizzazione dei messaggi protobuf
 pyyaml			# gestione file yaml
+types-PyYAML	# tipizzazione libreria pyyaml
 
 # === TESTING ===
 pytest                    # Testing framework

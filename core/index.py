@@ -8,10 +8,9 @@ import os
 from dotenv import load_dotenv
 
 from core.sensors import TemperatureSensor
-from logger.factory import get_logger, init_logging
+from logger.factory import get_logger
 
 load_dotenv(dotenv_path=os.getenv("PYTHON_APP", ".development.env"), override=True)
-init_logging()
 logger = get_logger(__name__)
 
 

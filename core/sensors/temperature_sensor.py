@@ -6,16 +6,17 @@
 from core.sensors import SensorNode
 from core.sensors.types.sensor_reading import (SensorReading, SensorType,
                                                UnitOfMeasure)
-from logger.factory import get_logger
-
-logger = get_logger(__name__)
 
 
 class TemperatureSensor(SensorNode):
     """Temperature sensor class"""
 
     def __init__(self, sensor_id: str):
-        super().__init__(sensor_id, SensorType.TEMPERATURE)
+        super().__init__(
+            sensor_id=sensor_id,
+            sensor_type=SensorType.TEMPERATURE,
+            logger_name=__name__,
+        )
 
     def read_data(self) -> SensorReading:
         return SensorReading(
@@ -27,4 +28,4 @@ class TemperatureSensor(SensorNode):
 
     def calibrate(self):
         """Calibrate the sensor by adjusting the reading by the offset."""
-        logger.info(f"Calibrating temperature sensor {self.sensor_id}")
+        self.logger.info(f"Calibrating temperature sensor {self.sensor_id}")

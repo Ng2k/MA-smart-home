@@ -17,8 +17,12 @@ handlers:
     stream: ext://sys.stdout
 
 loggers:
-  myapp:
-    level: INFO
+  __main__:
+    level: DEBUG
+    handlers: [console]
+    propagate: False
+  temperature_sensor:
+    level: DEBUG
     handlers: [console]
     propagate: False
 
