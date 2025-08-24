@@ -8,7 +8,8 @@ from typing import List
 
 import grpc
 
-from core.sensors import SensorNode, TemperatureSensor
+from core.sensors.sensor_node import SensorNode
+from core.sensors.temperature_sensor import TemperatureSensor
 from core.sensors.sensor_enum import SensorType
 from logger.factory import get_logger
 from proto import sensor_pb2_grpc
@@ -42,12 +43,15 @@ class SensorManager:
         :param interval (float): interval for the sensor
         :return: None
         """
+        if not isinstance(sensor_type, SensorType):
+            raise TypeError("sensor_type must be an instance of SensorType")
+        if sensor_type.value not in SENSOR_TYPE_MAPPING:
+            raise ValueError(f"Unsupported sensor type: {sensor_type}")
         sensor: SensorNode = SENSOR_TYPE_MAPPING[sensor_type.value](
             sensor_id=f"sensor_{len(self.sensors) + 1}",
             stub=self.stub,
             interval=interval,
         )
-
         self.logger.info(f"Adding sensor: {sensor.sensor_id}")
         self.sensors.append(sensor)
 

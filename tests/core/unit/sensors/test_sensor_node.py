@@ -19,14 +19,17 @@ from core.sensors.types.sensor_reading import SensorReading, SensorType
 # Test Fixtures
 # -----------------------
 
+@pytest.fixture
+def mock_stub():
+    # Mock object for stub, since it's not used in these tests
+    return object()
 
 @pytest.fixture
-def concrete_sensor():
+def concrete_sensor(mock_stub):
     """Factory for creating a concrete SensorNode implementation."""
-
     class ConcreteSensorNode(SensorNode):
-        def __init__(self, sensor_id: str, sensor_type: SensorType):
-            super().__init__(sensor_id, sensor_type)
+        def __init__(self, sensor_id: str, sensor_type: SensorType, stub=mock_stub, interval=2.0):
+            super().__init__(sensor_id, sensor_type, stub, interval)
             self._read_data_called = False
             self._calibrate_called = False
 
@@ -36,6 +39,12 @@ def concrete_sensor():
 
         def calibrate(self) -> None:
             self._calibrate_called = True
+
+        def run(self) -> None:
+            pass
+
+        def stop(self) -> None:
+            pass
 
     return ConcreteSensorNode
 
@@ -121,10 +130,9 @@ def test_must_implement_both_methods():
 def test_abstract_methods_properties():
     """Test that abstract methods are properly configured."""
     assert issubclass(SensorNode, ABC)
-    assert len(SensorNode.__abstractmethods__) == 2
-    assert "read_data" in SensorNode.__abstractmethods__
-    assert "calibrate" in SensorNode.__abstractmethods__
-
+    assert len(SensorNode.__abstractmethods__) == 4
+    for method in ("read_data", "calibrate", "run", "stop"):
+        assert method in SensorNode.__abstractmethods__
     assert getattr(SensorNode.read_data, "__isabstractmethod__", False)
     assert getattr(SensorNode.calibrate, "__isabstractmethod__", False)
     assert not getattr(SensorNode.get_metadata, "__isabstractmethod__", False)
@@ -201,7 +209,13 @@ def test_abstract_method_pass_statements_coverage():
             except Exception:
                 pass
 
-    sensor = PassCoverageNode("coverage", SensorType.TEMPERATURE)
+        def run(self) -> None:
+            pass
+
+        def stop(self) -> None:
+            pass
+
+    sensor = PassCoverageNode("coverage", SensorType.TEMPERATURE, object())
     result = sensor.read_data()
     assert result == {"covered": True}
     sensor.calibrate()
@@ -240,12 +254,18 @@ def test_method_override():
         def calibrate(self) -> None:
             pass
 
+        def run(self) -> None:
+            pass
+
+        def stop(self) -> None:
+            pass
+
         def get_metadata(self) -> Dict[str, str]:
             base = super().get_metadata()
             base["custom"] = "true"
             return base
 
-    sensor = CustomSensorNode("custom", SensorType.TEMPERATURE)
+    sensor = CustomSensorNode("custom", SensorType.TEMPERATURE, object())
     assert sensor.read_data() == {"custom": "custom"}
     assert sensor.get_metadata() == {
         "id": "custom",
@@ -268,7 +288,13 @@ def test_multiple_inheritance():
         def calibrate(self) -> None:
             pass
 
-    sensor = MultiSensor("multi", SensorType.MOTION_IR)
+        def run(self) -> None:
+            pass
+
+        def stop(self) -> None:
+            pass
+
+    sensor = MultiSensor("multi", SensorType.MOTION_IR, object())
     assert isinstance(sensor, SensorNode)
     assert isinstance(sensor, Mixin)
     assert sensor.extra_method() == "extra"

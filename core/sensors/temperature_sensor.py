@@ -8,9 +8,8 @@ import time
 
 import grpc
 
-from core.sensors import SensorNode
-from core.sensors.types.sensor_reading import (SensorReading, SensorType,
-                                               UnitOfMeasure)
+from core.sensors.sensor_node import SensorNode
+from core.sensors.types.sensor_reading import SensorReading, SensorType, UnitOfMeasure
 from proto import sensor_pb2, sensor_pb2_grpc
 
 
