@@ -15,7 +15,7 @@ import pytest
 
 @pytest.fixture
 def mock_grpc():
-    with patch("core.communication.grpc_layer.grpc") as grpc_mock:
+    with patch("core.communication.grpc_server.grpc") as grpc_mock:
         server = AsyncMock()
         server.start = AsyncMock()
         server.stop = AsyncMock()
@@ -31,8 +31,8 @@ def mock_grpc():
 
 @pytest.fixture
 def mock_protobuf():
-    with patch("core.communication.grpc_layer.sensor_pb2") as pb2, patch(
-        "core.communication.grpc_layer.sensor_pb2_grpc"
+    with patch("core.communication.grpc_server.sensor_pb2") as pb2, patch(
+        "core.communication.grpc_server.sensor_pb2_grpc"
     ) as pb2_grpc:
 
         response = Mock(success=True, message="Reading received")

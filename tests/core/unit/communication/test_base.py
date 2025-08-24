@@ -1,14 +1,6 @@
-"""Refactored tests for CommunicationLayer.
-
-This module keeps focused, parametrized tests that exercise:
-- abstract method enforcement
-- async/coroutine behavior and type signatures
-- normal operation (send/receive/start/stop)
-- exception propagation and concurrency
-- docstrings and metadata
-- coverage of abstract 'pass' statements via super() calls
-
-Redundant and highly repetitive cases were consolidated into parametrized tests.
+"""
+@description: Test suite for the Base class for communication layers
+@author: Nicola Guerra
 """
 
 import asyncio
@@ -243,9 +235,9 @@ async def test_concurrent_operations_compact(communication_factory):
 def test_docstrings_and_module_metadata():
     # method docstrings kept in Italian in the source; check presence
     assert CommunicationLayer.send.__doc__ is not None
-    assert "messaggio" in CommunicationLayer.send.__doc__
+    assert "Send a message to a targeted node." in CommunicationLayer.send.__doc__
     assert CommunicationLayer.start.__doc__ is not None
-    assert "Avvia" in CommunicationLayer.start.__doc__
+    assert "Start the communication layer (server)." in CommunicationLayer.start.__doc__
 
 
 @pytest.mark.asyncio
