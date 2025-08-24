@@ -8,7 +8,6 @@ from unittest.mock import Mock
 
 import grpc
 import asyncio
-import pytest
 
 from core.sensors.temperature_sensor import TemperatureSensor
 from core.sensors.types.sensor_reading import SensorReading, SensorType, UnitOfMeasure
