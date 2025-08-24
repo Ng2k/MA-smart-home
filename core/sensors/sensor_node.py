@@ -17,16 +17,22 @@ class SensorNode(ABC):
     Defines the common contract for all sensors.
     """
 
-    def __init__(self,
-                 sensor_id: str,
-                 sensor_type: SensorType,
-                 interval: float = 2.0,
-                 server_address: str = "localhost:50051",
-                 logger_name: str = __name__):
+    def __init__(
+        self,
+        sensor_id: str,
+        sensor_type: SensorType,
+        server_address: str,
+        interval: float = 2.0,
+        logger_name: str = __name__
+    ):
         self.sensor_id = sensor_id
         self.sensor_type = sensor_type
         self.interval = interval
         self.running = False
+
+        if not server_address:
+            raise ValueError("server_address must be provided")
+        
         self.server_address = server_address
         self.grpc_layer = GRPCClient(server_address)
         self.logger = get_logger(logger_name)

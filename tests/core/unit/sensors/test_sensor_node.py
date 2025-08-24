@@ -78,6 +78,26 @@ def test_constructor_assigns_attributes(concrete_sensor, sensor_id, sensor_type)
     assert isinstance(sensor, ABC)
 
 
+def test_init_requires_server_address():
+    """SensorNode should raise ValueError when server_address is falsy."""
+
+    class Minimal(SensorNode):
+        def read_data(self) -> SensorReading:
+            return {"value": 0}
+
+        def calibrate(self) -> None:
+            pass
+
+        def run(self) -> None:
+            pass
+
+        def stop(self) -> None:
+            pass
+
+    with pytest.raises(ValueError, match="server_address must be provided"):
+        Minimal("id", SensorType.TEMPERATURE, server_address="")
+
+
 # -----------------------
 # Abstract Class Tests
 # -----------------------

@@ -11,8 +11,7 @@ import asyncio
 import pytest
 
 from core.sensors.temperature_sensor import TemperatureSensor
-from core.sensors.types.sensor_reading import (SensorReading, SensorType,
-                                               UnitOfMeasure)
+from core.sensors.types.sensor_reading import SensorReading, SensorType, UnitOfMeasure
 
 
 def test_constructor_sets_id_and_type():
@@ -82,7 +81,7 @@ def test_stop_sets_running_false():
 
 
 def test_run_sends_reading_and_logs(monkeypatch):
-    ts = TemperatureSensor("t-run")
+    ts = TemperatureSensor("t-run", Mock())
     ts.running = True
     monkeypatch.setattr(
         ts,
@@ -113,7 +112,7 @@ def test_run_sends_reading_and_logs(monkeypatch):
 
 
 def test_run_handles_grpc_error(monkeypatch):
-    ts = TemperatureSensor("t-grpc")
+    ts = TemperatureSensor("t-grpc", Mock())
     ts.running = True
     monkeypatch.setattr(
         ts,

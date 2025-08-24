@@ -20,8 +20,8 @@ class TemperatureSensor(SensorNode):
     def __init__(
         self,
         sensor_id: str,
+        server_address: str,
         interval: float = 2.0,
-        server_address="localhost:50051"
     ):
         super().__init__(
             sensor_id=sensor_id,

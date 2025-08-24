@@ -32,7 +32,7 @@ loggers:
   ServerGRPC:
     level: DEBUG
     handlers: [console]
-    propagate: False,
+    propagate: False
   GRPCCommunicationLayer:
     level: DEBUG
     handlers: [console]
