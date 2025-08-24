@@ -19,16 +19,21 @@ from core.sensors.types.sensor_reading import SensorReading, SensorType
 # Test Fixtures
 # -----------------------
 
+
 @pytest.fixture
 def mock_stub():
     # Mock object for stub, since it's not used in these tests
     return object()
 
+
 @pytest.fixture
 def concrete_sensor(mock_stub):
     """Factory for creating a concrete SensorNode implementation."""
+
     class ConcreteSensorNode(SensorNode):
-        def __init__(self, sensor_id: str, sensor_type: SensorType, stub=mock_stub, interval=2.0):
+        def __init__(
+            self, sensor_id: str, sensor_type: SensorType, stub=mock_stub, interval=2.0
+        ):
             super().__init__(sensor_id, sensor_type, stub, interval)
             self._read_data_called = False
             self._calibrate_called = False

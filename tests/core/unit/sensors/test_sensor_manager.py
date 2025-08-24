@@ -4,12 +4,14 @@ Test suite per il modulo sensor_manager.
 @description: Suite completa di test per SensorManager con 100% code coverage
 @author: Test Suite Generator
 """
+
 import threading
 from unittest.mock import MagicMock, patch
+
 import pytest
 
-from core.sensors.sensor_manager import SensorManager
 from core.sensors.sensor_enum import SensorType
+from core.sensors.sensor_manager import SensorManager
 from core.sensors.sensor_node import SensorNode
 from core.sensors.temperature_sensor import TemperatureSensor
 
@@ -42,6 +44,7 @@ def test_add_sensor_temperature(manager):
 
 def test_add_sensor_invalid_type(manager):
     """Test adding sensor with invalid types raises errors."""
+
     # Unsupported type value
     class FakeType:
         value = "FAKE"
@@ -106,8 +109,10 @@ def test_stub_passed_to_sensor(monkeypatch):
 
     monkeypatch.setattr(TemperatureSensor, "__init__", fake_init)
 
-    from core.sensors.sensor_manager import SensorManager
     from unittest.mock import MagicMock
+
+    from core.sensors.sensor_manager import SensorManager
+
     stub_mock = MagicMock()
     manager = SensorManager("localhost:50051")
     manager.stub = stub_mock

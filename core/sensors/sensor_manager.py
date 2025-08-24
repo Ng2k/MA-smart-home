@@ -8,9 +8,9 @@ from typing import List
 
 import grpc
 
+from core.sensors.sensor_enum import SensorType
 from core.sensors.sensor_node import SensorNode
 from core.sensors.temperature_sensor import TemperatureSensor
-from core.sensors.sensor_enum import SensorType
 from logger.factory import get_logger
 from proto import sensor_pb2_grpc
 

@@ -8,7 +8,7 @@ import time
 
 from dotenv import load_dotenv
 
-from core.sensors import SensorManager, SensorNode, SensorType
+from core.sensors import SensorManager, SensorType
 from logger.factory import get_logger
 
 load_dotenv(dotenv_path=os.getenv("PYTHON_APP", ".development.env"), override=True)
