@@ -21,7 +21,11 @@ loggers:
     level: DEBUG
     handlers: [console]
     propagate: False
-  temperature_sensor:
+  TemperatureSensor:
+    level: DEBUG
+    handlers: [console]
+    propagate: False
+  SensorManager:
     level: DEBUG
     handlers: [console]
     propagate: False

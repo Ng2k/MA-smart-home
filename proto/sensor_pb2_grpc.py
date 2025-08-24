@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from proto import sensor_pb2 as proto_dot_sensor__pb2
+from proto import sensor_pb2
 
 GRPC_GENERATED_VERSION = '1.74.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in proto/sensor_pb2_grpc.py depends on'
+        + f' but the generated code in sensor_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -37,13 +37,13 @@ class SensorServiceStub(object):
         """
         self.SendReading = channel.unary_unary(
                 '/dai.SensorService/SendReading',
-                request_serializer=proto_dot_sensor__pb2.SensorRequest.SerializeToString,
-                response_deserializer=proto_dot_sensor__pb2.SensorResponse.FromString,
+                request_serializer=sensor_pb2.SensorRequest.SerializeToString,
+                response_deserializer=sensor_pb2.SensorResponse.FromString,
                 _registered_method=True)
         self.StreamReadings = channel.stream_unary(
                 '/dai.SensorService/StreamReadings',
-                request_serializer=proto_dot_sensor__pb2.SensorRequest.SerializeToString,
-                response_deserializer=proto_dot_sensor__pb2.SensorResponse.FromString,
+                request_serializer=sensor_pb2.SensorRequest.SerializeToString,
+                response_deserializer=sensor_pb2.SensorResponse.FromString,
                 _registered_method=True)
 
 
@@ -68,13 +68,13 @@ def add_SensorServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SendReading': grpc.unary_unary_rpc_method_handler(
                     servicer.SendReading,
-                    request_deserializer=proto_dot_sensor__pb2.SensorRequest.FromString,
-                    response_serializer=proto_dot_sensor__pb2.SensorResponse.SerializeToString,
+                    request_deserializer=sensor_pb2.SensorRequest.FromString,
+                    response_serializer=sensor_pb2.SensorResponse.SerializeToString,
             ),
             'StreamReadings': grpc.stream_unary_rpc_method_handler(
                     servicer.StreamReadings,
-                    request_deserializer=proto_dot_sensor__pb2.SensorRequest.FromString,
-                    response_serializer=proto_dot_sensor__pb2.SensorResponse.SerializeToString,
+                    request_deserializer=sensor_pb2.SensorRequest.FromString,
+                    response_serializer=sensor_pb2.SensorResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -103,8 +103,8 @@ class SensorService(object):
             request,
             target,
             '/dai.SensorService/SendReading',
-            proto_dot_sensor__pb2.SensorRequest.SerializeToString,
-            proto_dot_sensor__pb2.SensorResponse.FromString,
+            sensor_pb2.SensorRequest.SerializeToString,
+            sensor_pb2.SensorResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -130,8 +130,8 @@ class SensorService(object):
             request_iterator,
             target,
             '/dai.SensorService/StreamReadings',
-            proto_dot_sensor__pb2.SensorRequest.SerializeToString,
-            proto_dot_sensor__pb2.SensorResponse.FromString,
+            sensor_pb2.SensorRequest.SerializeToString,
+            sensor_pb2.SensorResponse.FromString,
             options,
             channel_credentials,
             insecure,
