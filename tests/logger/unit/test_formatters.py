@@ -3,14 +3,22 @@
 @author: Nicola Guerra
 """
 
-import sys
 import logging
+import sys
 
 from logger.formatters import ColorFormatter, from_config
 
 
 def make_record(name: str, level: int, msg: str) -> logging.LogRecord:
-    return logging.LogRecord(name=name, level=level, pathname=__file__, lineno=1, msg=msg, args=(), exc_info=None)
+    return logging.LogRecord(
+        name=name,
+        level=level,
+        pathname=__file__,
+        lineno=1,
+        msg=msg,
+        args=(),
+        exc_info=None,
+    )
 
 
 def test_from_config_autodetect_tty(monkeypatch):
@@ -75,7 +83,13 @@ def test_color_timestamp_logger_level_and_message():
 
 def test_flag_conversion_and_none_handling():
     # Passing None for color flags should be accepted and converted to bool inside
-    f = ColorFormatter(fmt="%(message)s", use_colors=True, color_timestamp=None, color_logger_name=None, color_message=None)
+    f = ColorFormatter(
+        fmt="%(message)s",
+        use_colors=True,
+        color_timestamp=None,
+        color_logger_name=None,
+        color_message=None,
+    )
     assert f.color_timestamp is False
     assert f.color_logger_name is False
     assert f.color_message is False
@@ -102,14 +116,22 @@ def test_level_not_in_output_skips_coloring():
 
 def test_logger_name_absent_no_name_coloring():
     # when format does not include %(name)s, logger name coloring is skipped
-    f = ColorFormatter(fmt="%(levelname)s: %(message)s", use_colors=True, color_logger_name=True)
+    f = ColorFormatter(
+        fmt="%(levelname)s: %(message)s", use_colors=True, color_logger_name=True
+    )
     r = make_record("no_show", logging.INFO, "hi")
     out = f.format(r)
     assert ColorFormatter.LOGGER_NAME_COLOR not in out
 
 
 def test_from_config_passes_flags_through():
-    cf = from_config(format="%(message)s", use_colors=True, color_timestamp=False, color_logger_name=False, color_message=True)
+    cf = from_config(
+        format="%(message)s",
+        use_colors=True,
+        color_timestamp=False,
+        color_logger_name=False,
+        color_message=True,
+    )
     assert isinstance(cf, ColorFormatter)
     assert cf.color_timestamp is False
     assert cf.color_logger_name is False
@@ -127,7 +149,9 @@ def test_color_message_without_level_in_output_is_noop():
 def test_timestamp_coloring_with_preset_asctime():
     # Ensure the timestamp-coloring branch runs by pre-setting record.asctime
     fmt_str = "%(asctime)s %(levelname)s: %(message)s"
-    f = ColorFormatter(fmt=fmt_str, datefmt="%Y-%m-%d", use_colors=True, color_timestamp=True)
+    f = ColorFormatter(
+        fmt=fmt_str, datefmt="%Y-%m-%d", use_colors=True, color_timestamp=True
+    )
     r = make_record("ts", logging.INFO, "ok")
     # override the asctime that Formatter would use so we start with '20'
     r.__dict__["asctime"] = "2025-01-01T00:00:00"
@@ -141,7 +165,9 @@ def test_timestamp_coloring_with_preset_asctime():
 
 def test_timestamp_coloring_from_message_prefix():
     # Force the formatter to see a leading timestamp by making the message start with '20.. '
-    f = ColorFormatter(fmt="%(message)s", datefmt="%Y-%m-%d", use_colors=True, color_timestamp=True)
+    f = ColorFormatter(
+        fmt="%(message)s", datefmt="%Y-%m-%d", use_colors=True, color_timestamp=True
+    )
     r = make_record("m", logging.INFO, "2025-12-31 payload after ts")
     out = f.format(r)
     # timestamp part (before first space) should result in at least one ANSI sequence
@@ -164,12 +190,17 @@ def test_timestamp_split_branch_is_executed():
     out = f.format(r)
     # timestamp should be wrapped in at least one ANSI sequence
     assert ColorFormatter.RESET in out
-    assert ColorFormatter.TIMESTAMP_COLOR in out or ColorFormatter.TIMESTAMP_COLOR.replace("m", "") in out
+    assert (
+        ColorFormatter.TIMESTAMP_COLOR in out
+        or ColorFormatter.TIMESTAMP_COLOR.replace("m", "") in out
+    )
 
 
 def test_timestamp_prefix_without_space_skips_split():
     # message starts with '20' but has no space -> inner split branch should be skipped
-    f = ColorFormatter(fmt="%(message)s", datefmt="%Y-%m-%d", use_colors=True, color_timestamp=True)
+    f = ColorFormatter(
+        fmt="%(message)s", datefmt="%Y-%m-%d", use_colors=True, color_timestamp=True
+    )
     r = make_record("t", logging.INFO, "20250823")
     out = f.format(r)
     # should not insert any timestamp color sequences because split didn't find two parts

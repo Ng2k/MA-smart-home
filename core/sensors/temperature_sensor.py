@@ -3,9 +3,12 @@
 @author: Nicola Guerra
 """
 
-from core.sensors.sensor_node import SensorNode
+from core.sensors import SensorNode
 from core.sensors.types.sensor_reading import (SensorReading, SensorType,
                                                UnitOfMeasure)
+from logger.factory import get_logger
+
+logger = get_logger(__name__)
 
 
 class TemperatureSensor(SensorNode):
@@ -21,3 +24,7 @@ class TemperatureSensor(SensorNode):
             value=25.0,
             unit=UnitOfMeasure.CELSIUS,
         )
+
+    def calibrate(self):
+        """Calibrate the sensor by adjusting the reading by the offset."""
+        logger.info(f"Calibrating temperature sensor {self.sensor_id}")

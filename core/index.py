@@ -7,21 +7,19 @@ import os
 
 from dotenv import load_dotenv
 
+from core.sensors import TemperatureSensor
 from logger.factory import get_logger, init_logging
 
 load_dotenv(dotenv_path=os.getenv("PYTHON_APP", ".development.env"), override=True)
+init_logging()
+logger = get_logger(__name__)
 
 
-def main():
-    init_logging()
-    logger = get_logger(__name__)
-    logger.error("test")
-    logger.info("test")
-    logger.debug("test")
-    logger.warning("test")
-    logger.critical("test")
-    # Initialize and start the smart home system components here
+def setup_sensors() -> None:
+    """Set up the sensors for the smart home system."""
+    temperature_sensor = TemperatureSensor(sensor_id="living_room_temp")
+    temperature_sensor.calibrate()
 
 
 if __name__ == "__main__":
-    main()
+    setup_sensors()
